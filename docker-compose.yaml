@@ -7,7 +7,7 @@ x-spt-common:
     context: .
     dockerfile: ./spt-docker/Dockerfile
     args:
-      NODE_IMAGE_NAME: node:16.17.1-alpine3.16
+      NODE_IMAGE_NAME: node:16.17.1-buster
   volumes:
     - ./app/Aki_Data:/home/node/app/Aki_Data
     - ./app/src:/home/node/app/obj
@@ -40,11 +40,11 @@ services:
       - "6969:6969"
       - "6970:6970"
     healthcheck:
-      test: wget --no-verbose --tries=1 --spider http://localhost:6970/healthcheck || exit 1
-      interval: 30s
+      test: curl --fail http://localhost:6969/healthcheck
+      interval: 60s
       timeout: 10s
-      retries: 0
-      start_period: 30s
+      retries: 2
+      start_period: 60s
     restart: always
     labels:
       - "autoheal=true"
@@ -54,8 +54,8 @@ services:
     tty: true
     restart: always
     environment:
-      - AUTOHEAL_INTERVAL=30
-      - AUTOHEAL_START_PERIOD=30
+      - AUTOHEAL_INTERVAL=60
+      - AUTOHEAL_START_PERIOD=60
       - AUTOHEAL_DEFAULT_STOP_TIMEOUT=10
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
