@@ -1,0 +1,61 @@
+---
+version: '3.8'
+x-spt-common:
+  &spt-common
+  image: spt
+  build:
+    context: .
+    dockerfile: ./spt-docker/Dockerfile
+    args:
+      NODE_IMAGE_NAME: node:16.17.1-alpine3.16
+  volumes:
+    - ./app/Aki_Data:/home/node/app/Aki_Data
+    - ./app/src:/home/node/app/obj
+    - ./app/src:/home/node/app/src
+    - ./app/user:/home/node/app/user
+
+services:
+  run:
+    <<: *spt-common
+    entrypoint: sh
+    command:
+      - -c
+      - |
+        DEFAULT_IP=0.0.0.0
+        CURRENT_WORK_DIR=$$(pwd)
+        echo "Fix mods files ..."
+        for i in $$( find ./user/mods -name "*.js" ); do
+          if grep -q "C:/snapshot/project/" $${i}; then
+            echo $${i}
+            sed -i "s@C:/snapshot/project@$$CURRENT_WORK_DIR@g" $${i}
+          fi
+        done
+        echo "Change ip on $$DEFAULT_IP in /Aki_Data/Server/configs/http.json, /user/mods/SITCoop/config/coopConfig.json"
+        sed -i -e "s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/$$DEFAULT_IP/g" ./Aki_Data/Server/configs/http.json
+        sed -i -e "s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/$$DEFAULT_IP/g" ./user/mods/SITCoop/config/coopConfig.json
+        echo "Start server, please wait ..."
+        echo
+        npx ts-node -r tsconfig-paths/register src/ide/ReleaseEntry.ts
+    ports:
+      - "6969:6969"
+      - "6970:6970"
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:6970/healthcheck || exit 1
+      interval: 30s
+      timeout: 10s
+      retries: 0
+      start_period: 30s
+    restart: always
+    labels:
+      - "autoheal=true"
+
+  autoheal:
+    image: willfarrell/autoheal:latest
+    tty: true
+    restart: always
+    environment:
+      - AUTOHEAL_INTERVAL=30
+      - AUTOHEAL_START_PERIOD=30
+      - AUTOHEAL_DEFAULT_STOP_TIMEOUT=10
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
