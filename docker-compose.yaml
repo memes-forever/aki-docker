@@ -50,10 +50,11 @@ services:
         echo "Prepare run ..."
         stringContain() { case $$2 in *$$1* ) return 0;; *) return 1;; esac ;}
         echo "Fix mods files ..."
+        REPLACEMENT_WORK_DIR=C:/snapshot/project
         for i in $$( find ./user/mods -name "*.js" ); do
           if ! stringContain "node_modules" "$${i}"; then
             if grep -q "$$REPLACEMENT_WORK_DIR" $${i}; then
-              echo $${i}
+              echo "$${i} $$REPLACEMENT_WORK_DIR -> $$CURRENT_WORK_DIR"
               sed -i "s@$$REPLACEMENT_WORK_DIR@$$CURRENT_WORK_DIR@g" $${i}
             fi
           fi
