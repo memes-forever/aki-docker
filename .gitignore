@@ -1,4 +1,16 @@
 Server/
 app/
+app/user/mods/SITCoop/
 backup_profiles/
-.idea/
+
+## visual studio
+.vs
+.idea
+slnx.sqlite
+slnx-journal.sqlite
+
+## nodejs
+node_modules
+node.exe
+package-lock.json
+yarn.lock

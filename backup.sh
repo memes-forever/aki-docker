@@ -1,15 +1,18 @@
 #!/bin/bash
 
 # get config
-. ./config
+. ./.config
 
-CURRENT_WORK_DIR=$(pwd)
+
 PROFILES_FOLDER=app/user/profiles
+
 
 ARGS1=$1
 ARGS2=$2
 
+
 mkdir -p $BACKUP_PROFILES_FOLDER
+
 
 if [ "$ARGS1" = "backup_profiles" ]; then
 
@@ -17,7 +20,7 @@ if [ "$ARGS1" = "backup_profiles" ]; then
   echo "Backup save"
 
   cd $BACKUP_PROFILES_FOLDER || exit
-  OLDEST_FILES=$(ls -t | tail -n +11)
+  OLDEST_FILES=$(ls -t | tail -n +721)
   if [ "$OLDEST_FILES" ]; then
     rm $OLDEST_FILES
     echo "Backup remove old $OLDEST_FILES"

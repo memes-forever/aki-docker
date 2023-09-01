@@ -1,12 +1,19 @@
 #!/bin/bash
 
 # get config
-. ./config
+. ./.config
 
-CURRENT_WORK_DIR=$(pwd)
-APP_FOLDER=app
+
 SPT_AKI_SERVER_FOLDER=Server
 SPT_AKI_SERVER_PROJECT_FOLDER=$SPT_AKI_SERVER_FOLDER/project
+
+
+echo "WARNINGS! ./run build REPLACE ON DEFAULT ALL CONFIG FILE FROM $APP_FOLDER/Aki_Data/SERVER/configs !!!!!!!!!"
+
+docker-compose down
+
+FILES_TO_COPY=(package.json .parcelrc tsconfig.json base_tsconfig.json)
+DIRS_TO_COPY=(src)
 
 
 if [ ! -d $APP_FOLDER ]; then
@@ -14,11 +21,27 @@ if [ ! -d $APP_FOLDER ]; then
   mkdir -p $APP_FOLDER
   mkdir -p $APP_FOLDER/Aki_Data
   mkdir -p $APP_FOLDER/user
+  mkdir -p $APP_FOLDER/node_modules
   mkdir -p $APP_FOLDER/user/mods
+else
+  echo "Remove old files ..."
+  for i in ${FILES_TO_COPY[*]}; do
+    echo "rm $APP_FOLDER/${i}"
+    rm $APP_FOLDER/${i}
+  done
+
+  for i in ${DIRS_TO_COPY[*]}; do
+    echo "rm dir $APP_FOLDER/${i}"
+    rm -R $APP_FOLDER/${i}
+  done
+
+  echo "rm dir $APP_FOLDER/Aki_Data/Server"
+  rm -R $APP_FOLDER/Aki_Data/Server
+  echo "rm $APP_FOLDER/node_modules/*"
+  rm -rf $APP_FOLDER/node_modules
+  mkdir -p $APP_FOLDER/node_modules
+  echo "End Remove"
 fi
-
-
-echo "WARNINGS! ./run build REPLACE ON DEFAULT ALL CONFIG FILE FROM $APP_FOLDER/Aki_Data/SERVER/configs !!!!!!!!!"
 
 
 echo "Update SPT_AKI_SERVER from branch $SPT_AKI_SERVER_BRANCH ..."
@@ -47,13 +70,18 @@ fi
 
 
 echo "Start copy files from SPT_AKI_SERVER in $APP_FOLDER ..."
-cp $SPT_AKI_SERVER_PROJECT_FOLDER/package.json $APP_FOLDER/package.json
-cp $SPT_AKI_SERVER_PROJECT_FOLDER/.parcelrc $APP_FOLDER/.parcelrc
-cp $SPT_AKI_SERVER_PROJECT_FOLDER/tsconfig.json $APP_FOLDER/tsconfig.json
-cp $SPT_AKI_SERVER_PROJECT_FOLDER/base_tsconfig.json $APP_FOLDER/base_tsconfig.json
-cp -R $SPT_AKI_SERVER_PROJECT_FOLDER/src $APP_FOLDER/src
+for i in ${FILES_TO_COPY[*]}; do
+  echo "copy $SPT_AKI_SERVER_PROJECT_FOLDER/${i} -> $APP_FOLDER/${i}"
+  cp $SPT_AKI_SERVER_PROJECT_FOLDER/${i} $APP_FOLDER/${i}
+done
+
+for i in ${DIRS_TO_COPY[*]}; do
+  echo "copy dir $SPT_AKI_SERVER_PROJECT_FOLDER/${i} -> $APP_FOLDER/${i}"
+  cp -R $SPT_AKI_SERVER_PROJECT_FOLDER/${i} $APP_FOLDER/${i}
+done
+
+echo "copy dir $SPT_AKI_SERVER_PROJECT_FOLDER/assets -> $APP_FOLDER/Aki_Data/Server"
 cp -R $SPT_AKI_SERVER_PROJECT_FOLDER/assets $APP_FOLDER/Aki_Data/Server
 echo "End copy files."
-
 
 echo "----------------------------------------------------------------"

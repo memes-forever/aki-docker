@@ -1,38 +1,68 @@
 ---
 version: '3.8'
+
 x-spt-common:
   &spt-common
-  image: spt
-  build:
-    context: .
-    dockerfile: ./spt-docker/Dockerfile
-    args:
-      NODE_IMAGE_NAME: node:16.17.1-buster
+  image: node:16.17.1-buster
+  working_dir: /home/node/app
+  user: node
+#  image: spt_node
+#  build:
+#    context: .
+#    dockerfile: ./spt-docker/Dockerfile
+#    args:
+#      NODE_IMAGE_NAME: node:16.17.1-buster
+  entrypoint: bash
   volumes:
+    # files
+    - ./app/package.json:/home/node/app/package.json
+    - ./app/tsconfig.json:/home/node/app/tsconfig.json
+    - ./app/base_tsconfig.json:/home/node/app/base_tsconfig.json
+    - ./app/.parcelrc:/home/node/app/.parcelrc
+    - ./.config:/home/node/app/.config
+    # folders
     - ./app/Aki_Data:/home/node/app/Aki_Data
     - ./app/src:/home/node/app/obj
     - ./app/src:/home/node/app/src
+    - ./app/node_modules:/home/node/app/node_modules
     - ./app/user:/home/node/app/user
 
 services:
-  run:
+  init:
     <<: *spt-common
-    entrypoint: sh
     command:
       - -c
       - |
-        DEFAULT_IP=0.0.0.0
-        CURRENT_WORK_DIR=$$(pwd)
+        echo
+        echo "Init" 
+        yarn
+        echo "Finish init"
+
+  run:
+    <<: *spt-common
+    command:
+      - -c
+      - |
+        echo
+        echo
+        echo "Get config"
+        . ./.config
+        echo "Prepare run ..."
+        stringContain() { case $$2 in *$$1* ) return 0;; *) return 1;; esac ;}
         echo "Fix mods files ..."
         for i in $$( find ./user/mods -name "*.js" ); do
-          if grep -q "C:/snapshot/project/" $${i}; then
-            echo $${i}
-            sed -i "s@C:/snapshot/project@$$CURRENT_WORK_DIR@g" $${i}
+          if ! stringContain "node_modules" "$${i}"; then
+            if grep -q "$$REPLACEMENT_WORK_DIR" $${i}; then
+              echo $${i}
+              sed -i "s@$$REPLACEMENT_WORK_DIR@$$CURRENT_WORK_DIR@g" $${i}
+            fi
           fi
         done
-        echo "Change ip on $$DEFAULT_IP in /Aki_Data/Server/configs/http.json, /user/mods/SITCoop/config/coopConfig.json"
-        sed -i -e "s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/$$DEFAULT_IP/g" ./Aki_Data/Server/configs/http.json
-        sed -i -e "s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/$$DEFAULT_IP/g" ./user/mods/SITCoop/config/coopConfig.json
+        echo "Change ip on $$INTERNAL_IP in /Aki_Data/Server/configs/http.json"
+        echo "Change ip on $$EXTERNAL_IP in /user/mods/SITCoop/config/coopConfig.json"
+        sed -i -e "s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/$$INTERNAL_IP/g" ./Aki_Data/Server/configs/http.json
+        sed -i -e "s/[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}\.[0-9]\{1,3\}/$$EXTERNAL_IP/g" ./user/mods/SITCoop/config/coopConfig.json
+        echo
         echo "Start server, please wait ..."
         echo
         npx ts-node -r tsconfig-paths/register src/ide/ReleaseEntry.ts
@@ -48,6 +78,9 @@ services:
     restart: always
     labels:
       - "autoheal=true"
+    depends_on:
+      init:
+        condition: service_completed_successfully
 
   autoheal:
     image: willfarrell/autoheal:latest
@@ -55,7 +88,10 @@ services:
     restart: always
     environment:
       - AUTOHEAL_INTERVAL=60
-      - AUTOHEAL_START_PERIOD=60
-      - AUTOHEAL_DEFAULT_STOP_TIMEOUT=10
+      - AUTOHEAL_START_PERIOD=300
+      - AUTOHEAL_DEFAULT_STOP_TIMEOUT=0
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      init:
+        condition: service_completed_successfully

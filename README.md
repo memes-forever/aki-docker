@@ -12,9 +12,15 @@
 
 ***
 
+### Config
+
+in file .config
+
+***
+
 ### Build and Run AKI Server
 * build server `./build.sh`
-* in console `docker-compose up`
+* run server `docker-compose up`
 
 The first launch will be with an error, as it should be
 
