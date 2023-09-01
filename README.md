@@ -1,4 +1,4 @@
-# aki-server-mod-docker
+# aki-docker
 
 ***
 
@@ -35,7 +35,7 @@ The first launch will be with an error, as it should be
 
 ### Cron example
 
-* Run backup `1 * * * * cd /home/xxxx/aki-server && ./backup.sh backup_profiles`
+* Run backup `1 * * * * cd /home/xxxx/aki-docker && ./backup.sh backup_profiles`
 
 ***
 
