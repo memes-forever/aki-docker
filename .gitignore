@@ -2,6 +2,7 @@ Server/
 app/
 app/user/mods/SITCoop/
 backup_profiles/
+.config
 
 ## visual studio
 .vs
