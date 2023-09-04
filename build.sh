@@ -50,6 +50,8 @@ if [ ! -d $SPT_AKI_SERVER_FOLDER ]; then
 else
   cd $SPT_AKI_SERVER_FOLDER || exit
   git reset --hard $SPT_AKI_SERVER_BRANCH
+  git pull
+  git lfs fetch
   git lfs pull
   cd $CURRENT_WORK_DIR || exit
 fi
