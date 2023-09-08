@@ -11,19 +11,20 @@
 
 ### Before using:
 
-* install git + git lfs 
+* Install git + git lfs 
 ```shell 
 sudo apt install git
 sudo apt install git-lfs
 ```
-* install docker: https://docs.docker.com/engine/install/ubuntu/
-* install docker-compose 
+* Install docker: https://docs.docker.com/engine/install/ubuntu/
+* Install docker-compose 
 ```shell
     sudo curl -L "https://github.com/docker/compose/releases/download/v2.21.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose && sudo chmod +x /usr/local/bin/docker-compose
 ```
-* in console: 
-```shell 
-chmod +x ./build.sh && chmod +x ./backup.sh
+* Clone aki-docker
+```shell
+cd ~
+git clone https://github.com/memes-forever/aki-docker
 ```
 
 ***
@@ -54,9 +55,20 @@ then you need change in the SIT mod `coopConfig.json`->`useExternalIPFinder=fals
 ***
 
 ### Build and Run AKI Server
-* build server `./build.sh`
-* run server `docker-compose up`
-* run server in background `docker-compose up -d`
+* Build server 
+```shell 
+cd aki-docker
+chmod +x ./build.sh && chmod +x ./backup.sh
+./build.sh
+```
+* Run server 
+```shell
+docker-compose up
+```
+* Run server in background
+```shell
+docker-compose up -d
+```
 
 The first launch will be with an error, as it should be
 
@@ -64,15 +76,25 @@ The first launch will be with an error, as it should be
 
 ### Cron example
 
-* Run backup `1 * * * * cd /home/xxxx/aki-docker && ./backup.sh backup_profiles`
+* Run backup 
+```shell
+# every hours
+0 * * * * cd /xxxx/aki-docker && ./backup.sh backup_profiles
+```
 
 ***
 
 ### Additional features
 
 #### Zerotier VPN
-* Install: `curl -s https://install.zerotier.com | sudo bash`
-* Connect: `sudo zerotier-cli join <you_network>`
+* Install: 
+```bash
+curl -s https://install.zerotier.com | sudo bash
+```
+* Connect: 
+```bash
+sudo zerotier-cli join <you_network>
+```
 
 #### Portainer to manage container (read logs or restart, etc)
 * Install:
@@ -83,6 +105,7 @@ docker run -d -p 9000:9000 --restart always -v /var/run/docker.sock:/var/run/doc
 #### Grafana for monitoring (with Prometheus & AlertManager & NodeExporter & cAdvisor) 
 * Install:
 ```shell
+cd ~
 git clone https://github.com/stefanprodan/dockprom
 cd dockprom
 docker-compose up -d
