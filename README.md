@@ -24,7 +24,7 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.21.0/docker
 * Clone aki-docker
 ```shell
 cd ~
-git clone https://github.com/memes-forever/aki-docker
+git clone https://github.com/memes-forever/aki-docker.git
 ```
 
 ***
