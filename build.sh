@@ -49,7 +49,8 @@ if [ ! -d $SPT_AKI_SERVER_FOLDER ]; then
   git clone -b $SPT_AKI_SERVER_BRANCH https://dev.sp-tarkov.com/SPT-AKI/Server.git
 else
   cd $SPT_AKI_SERVER_FOLDER || exit
-  git reset --hard $SPT_AKI_SERVER_BRANCH
+  git checkout $SPT_AKI_SERVER_BRANCH
+  git reset --hard
   git pull
   git lfs fetch
   git lfs pull
@@ -65,7 +66,8 @@ if [ ! -d $APP_FOLDER/user/mods/SITCoop ]; then
   cd $CURRENT_WORK_DIR || exit
 else
   cd $APP_FOLDER/user/mods/SITCoop || exit
-  git reset --hard $SIT_AKI_SERVER_MOD_BRANCH
+  git checkout $SIT_AKI_SERVER_MOD_BRANCH
+  git reset --hard
   git pull
   cd $CURRENT_WORK_DIR || exit
 fi
