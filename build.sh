@@ -47,6 +47,9 @@ fi
 echo "Update SPT_AKI_SERVER from branch $SPT_AKI_SERVER_BRANCH ..."
 if [ ! -d $SPT_AKI_SERVER_FOLDER ]; then
   git clone -b $SPT_AKI_SERVER_BRANCH https://dev.sp-tarkov.com/SPT-AKI/Server.git
+  cd $SPT_AKI_SERVER_FOLDER || exit
+  git log -1
+  cd $CURRENT_WORK_DIR || exit
 else
   cd $SPT_AKI_SERVER_FOLDER || exit
   git checkout $SPT_AKI_SERVER_BRANCH
@@ -54,6 +57,7 @@ else
   git pull
   git lfs fetch
   git lfs pull
+  git log -1
   cd $CURRENT_WORK_DIR || exit
 fi
 
@@ -63,12 +67,15 @@ if [ ! -d $APP_FOLDER/user/mods/SITCoop ]; then
   cd $APP_FOLDER/user/mods || exit
   git clone -b $SIT_AKI_SERVER_MOD_BRANCH https://github.com/paulov-t/SIT.Aki-Server-Mod.git
   mv SIT.Aki-Server-Mod SITCoop
+  cd $APP_FOLDER/user/mods/SITCoop || exit
+  git log -1
   cd $CURRENT_WORK_DIR || exit
 else
   cd $APP_FOLDER/user/mods/SITCoop || exit
   git checkout $SIT_AKI_SERVER_MOD_BRANCH
   git reset --hard
   git pull
+  git log -1
   cd $CURRENT_WORK_DIR || exit
 fi
 
