@@ -38,9 +38,9 @@ in file .config:
 |- `master` - SPT-AKI 3.6.1
 
 
-* SIT_AKI_SERVER_MOD_BRANCH=`0.13.5.0` or `master` from https://github.com/paulov-t/SIT.Aki-Server-Mod.git \
-|- `0.13.5.0` - mod for SPT-AKI 3.7.0\
-|- `master` - mod for SPT-AKI 3.6.1
+* SIT_AKI_SERVER_MOD_BRANCH=`master` or `Aki.3.6` from https://github.com/paulov-t/SIT.Aki-Server-Mod.git \
+|- `master` - mod for SPT-AKI 3.7.0\
+|- `Aki.3.6` - mod for SPT-AKI 3.6.1
 
 
 * INTERNAL_IP=`0.0.0.0` - **Do not change**
