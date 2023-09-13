@@ -61,6 +61,14 @@ cd aki-docker
 chmod +x ./build.sh && chmod +x ./backup.sh
 ./build.sh
 ```
+* Update build server 
+```shell 
+cd aki-docker
+git reset --hard
+git pull
+chmod +x ./build.sh && chmod +x ./backup.sh
+./build.sh
+```
 * Run server 
 ```shell
 docker-compose up
