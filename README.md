@@ -128,7 +128,7 @@ docker run -d -p 9000:9000 --restart always -v /var/run/docker.sock:/var/run/doc
 * Install:
 ```shell
 cd ~
-git clone https://github.com/stefanprodan/dockprom
+git clone https://github.com/stefanprodan/dockprom.git
 cd dockprom
 docker-compose up -d
 ```
