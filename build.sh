@@ -37,9 +37,9 @@ else
 
   echo "rm dir $APP_FOLDER/Aki_Data/Server"
   rm -R $APP_FOLDER/Aki_Data/Server
-  echo "rm $APP_FOLDER/node_modules/*"
-  rm -rf $APP_FOLDER/node_modules
-  mkdir -p $APP_FOLDER/node_modules
+#  echo "rm $APP_FOLDER/node_modules/*"
+#  rm -rf $APP_FOLDER/node_modules
+#  mkdir -p $APP_FOLDER/node_modules
   echo "End Remove"
 fi
 
