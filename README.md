@@ -93,6 +93,21 @@ The first launch will be with an error, as it should be
 
 ### Additional features
 
+#### UPNP auto forwarding ports https://dev.to/jacopobonta/upnp-port-forwarding-1pmd
+* Install:
+```bash
+sudo apt-get install miniupnpc
+```
+* Settings: 
+```bash
+# you device local ip
+LOCAL_IP=192.168.0.2
+upnpc -a $LOCAL_IP 6969 6969 tcp
+upnpc -a $LOCAL_IP 6969 6969 udp
+upnpc -a $LOCAL_IP 6970 6970 tcp
+upnpc -a $LOCAL_IP 6970 6970 udp
+```
+
 #### Zerotier VPN
 * Install: 
 ```bash
