@@ -43,14 +43,13 @@ in file .config:
 |- `Aki.3.6` - mod for SPT-AKI 3.6.1
 
 
-* INTERNAL_IP=`0.0.0.0` - **Do not change**
-
-
+* USE_EXTERNAL_IP_FINDER=`true` or `false`
 * EXTERNAL_IP=`0.0.0.0`
-* * If the SIT mod `coopConfig.json`->`useExternalIPFinder=true`, \
+* * If in the `.config`->`USE_EXTERNAL_IP_FINDER=true`, \
 then the connection to the server must be made using the external IP of the device
 * * If you use VPN (zerotier, etc) or local connection, \
-then you need change in the SIT mod `coopConfig.json`->`useExternalIPFinder=false` and EXTERNAL_IP in `.config` on you vpn/local ip.
+then you need change in the `.config`->`USE_EXTERNAL_IP_FINDER=false` and EXTERNAL_IP on you vpn/local ip.
+
 
 ***
 
