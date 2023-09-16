@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # get config
-. ./.config
+. ./.settings
 
 
-PROFILES_FOLDER=app/user/profiles
+PROFILES_FOLDER=profiles
 
 
 ARGS1=$1
