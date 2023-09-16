@@ -2,13 +2,6 @@
 
 ***
 
-### To Do in the future
-
-* if not ./user/mods/SITCoop/config/coopConfig.json - restart before generate file
-* if `./build.sh` - delete all *.js from mods
-
-***
-
 ### Before using:
 
 * Install git + git lfs 
@@ -29,9 +22,9 @@ git clone https://github.com/memes-forever/aki-docker.git
 
 ***
 
-### Config
+### Settings
 
-in file .config:
+in file .settings:
 
 * SPT_AKI_SERVER_BRANCH=`0.13.5.0` or `master` from https://dev.sp-tarkov.com/SPT-AKI/Server.git \
 |- `0.13.5.0` - SPT-AKI 3.7.0\
@@ -45,10 +38,10 @@ in file .config:
 
 * USE_EXTERNAL_IP_FINDER=`true` or `false`
 * EXTERNAL_IP=`0.0.0.0`
-* * If in the `.config`->`USE_EXTERNAL_IP_FINDER=true`, \
+* * If in the `.settings`->`USE_EXTERNAL_IP_FINDER=true`, \
 then the connection to the server must be made using the external IP of the device
 * * If you use VPN (zerotier, etc) or local connection, \
-then you need change in the `.config`->`USE_EXTERNAL_IP_FINDER=false` and EXTERNAL_IP on you vpn/local ip.
+then you need change in the `.settings`->`USE_EXTERNAL_IP_FINDER=false` and EXTERNAL_IP on you vpn/local ip.
 
 
 ***
