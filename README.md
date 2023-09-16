@@ -77,7 +77,6 @@ docker-compose up
 docker-compose up -d
 ```
 
-The first launch will be with an error, as it should be
 
 ***
 
