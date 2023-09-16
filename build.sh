@@ -67,7 +67,7 @@ if [ ! -d $APP_FOLDER/user/mods/SITCoop ]; then
   cd $APP_FOLDER/user/mods || exit
   git clone -b $SIT_AKI_SERVER_MOD_BRANCH https://github.com/paulov-t/SIT.Aki-Server-Mod.git
   mv SIT.Aki-Server-Mod SITCoop
-  cd $APP_FOLDER/user/mods/SITCoop || exit
+  cd SITCoop || exit
   git log -1
   cd $CURRENT_WORK_DIR || exit
 else
