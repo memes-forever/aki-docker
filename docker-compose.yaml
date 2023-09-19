@@ -6,12 +6,6 @@ x-spt-common:
   image: node:16.17.1-buster
   working_dir: /home/node/app
   user: node
-#  image: spt_node
-#  build:
-#    context: .
-#    dockerfile: ./spt-docker/Dockerfile
-#    args:
-#      NODE_IMAGE_NAME: node:16.17.1-buster
   entrypoint: bash
   volumes:
     # files
