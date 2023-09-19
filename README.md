@@ -1,10 +1,10 @@
-# aki-docker
+# SPT-AKI / Server on docker
+#### Cross-platform server (Linux, or others)
 
 ***
 
 ### To Do in the future
 
-* if not ./user/mods/SITCoop/config/coopConfig.json - restart before generate file
 * if `./build.sh` - delete all *.js from mods
 
 ***
